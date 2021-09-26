@@ -1,0 +1,165 @@
+Sub WallStocksHW()
+
+'VBA Homework for Data Analytics Bootcamp
+'Completed after one tutor session with Mark Fullton
+
+' --------------------------------------------
+' LOOP THROUGH ALL SHEETS
+    For Each ws In Worksheets
+
+' --------------------------------------------
+'Label the columns and cells for Summary Tables on all sheets
+"    ws.Range(""I1"") = ""Ticker"""
+"    ws.Range(""J1"") = ""Yearly Change"""
+"    ws.Range(""K1"") = ""Percentage Changed"""
+"    ws.Range(""L1"") = ""Stock Total Volume"""
+"    ws.Range(""P1"").Value = ""Ticker"""
+"    ws.Range(""Q1"").Value = ""Value"""
+"    ws.Range(""O2"").Value = ""Greatest % Increase"""
+"    ws.Range(""O3"").Value = ""Greatest % Decrease"""
+"    ws.Range(""O4"").Value = ""Greatest Total Volume"""
+    
+' --------------------------------------------
+'Set variables
+    Dim Ticker As String
+    Dim YearlyChange As Double
+    Dim PercentageChanged As Double
+    Dim StockTotalVolume As Double
+    
+    Dim StockOpen As Double
+    Dim StockClose As Double
+    
+    Dim GreatestIncrease As Double
+    Dim GreatestDecrease As Double
+    Dim GreatestVolume As Double
+
+' --------------------------------------------
+'Define the last row as first non-blank cell in a column
+"    lastrow = ws.Cells(Rows.Count, 1).End(xlUp).Row"
+
+' --------------------------------------------
+' Set an initial variable to zero for Stock Total Volume
+    Volume = 0
+
+' --------------------------------------------
+'Set summary table as variables and for it to start from 2nd Row
+    Dim Summary_Table_Row As Integer
+    Summary_Table_Row = 2
+
+' --------------------------------------------
+' Loop through all rows from 2 to last entry
+    For Row = 2 To lastrow
+
+"    If Cells(Row - 1, 1).Value <> Cells(Row, 1).Value Then"
+"    StockOpen = ws.Cells(Row, 3).Value"
+    End If
+
+' --------------------------------------------
+"' Check if still have the same ticker, if it is not..."
+"    If Cells(Row + 1, 1).Value <> Cells(Row, 1).Value Then"
+"    Ticker = ws.Cells(Row, 1).Value"
+"    Volume = Volume + ws.Cells(Row, 7).Value"
+    
+' --------------------------------------------
+' Print the Ticker and Volume in the Summary Table in columns I & L
+"    ws.Range(""I"" & Summary_Table_Row).Value = Ticker"
+"    ws.Range(""L"" & Summary_Table_Row).Value = Volume"
+    YearlyChange = StockClose - StockOpen
+    
+' --------------------------------------------
+'Set value for variable Volume to zero for the next ticker
+      Volume = 0
+      
+'Calculate Yearly change - close - open
+'Calculate percentage change - closing - opening)/opening
+    
+"    StockClose = ws.Cells(Row, 6)"
+    
+    If StockOpen <> 0 Then
+    PercentChange = YearlyChange / StockOpen
+    Else
+    PercentChange = (StockClose)
+    End If
+     
+' --------------------------------------------
+' Print the Ticker and Volume in the Summary Table in Columns J & K
+"    ws.Range(""J"" & Summary_Table_Row).Value = YearlyChange"
+"    ws.Range(""K"" & Summary_Table_Row).Value = PercentChange"
+"    ws.Range(""K"" & Summary_Table_Row).NumberFormat = ""0.00%"""
+"    ws.Range(""K"" & Summary_Table_Row).Style = ""Percent"""
+    
+' --------------------------------------------
+'Colour format Yearly change cells
+"'Added 3rd colour format, gray, for cells with zero"
+"    If ws.Range(""J"" & Summary_Table_Row).Value > 0 Then"
+"        ws.Range(""J"" & Summary_Table_Row).Interior.ColorIndex = 4"
+"    ElseIf ws.Range(""J"" & Summary_Table_Row).Value < 0 Then"
+"        ws.Range(""J"" & Summary_Table_Row).Interior.ColorIndex = 3"
+"    ElseIf ws.Range(""J"" & Summary_Table_Row).Value = 0 Then"
+"        ws.Range(""J"" & Summary_Table_Row).Interior.ColorIndex = 15"
+    End If
+      
+' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+
+' If the cell immediately following a row is the Ticker
+"    Else: Volume = Volume + ws.Cells(Row, 7).Value"
+
+' --------------------------------------------
+'End If statement
+    End If
+
+' --------------------------------------------
+'End Loop after going thru rows
+    Next Row
+
+"'Calculate Greatest % Increase,Greatest % Decrease & Greatest Total Vol"
+'Set starting values to zero
+    GreatestIncrease = 0
+    GreatestDecrease = 0
+    GreatestVolume = 0
+    
+'Set-up loop to look for Greatest % Increase/Decrease/Total Vol
+    For Row = 2 To lastrow
+
+"    If ws.Cells(Row, 11).Value > GreatestIncrease Then"
+"        GreatestIncrease = ws.Cells(Row, 11).Value"
+"        ws.Range(""Q2"").Value = GreatestIncrease"
+"        ws.Range(""Q2"").Style = ""Percent"""
+"        ws.Range(""Q2"").NumberFormat = ""0.00%"""
+"        ws.Range(""P2"").Value = ws.Cells(Row, 9).Value"
+    End If
+
+    Next Row
+
+    For Row = 2 To lastrow
+    
+"    If ws.Cells(Row, 11).Value < GreatestDecrease Then"
+"        GreatestDecrease = ws.Cells(Row, 11).Value"
+"        ws.Range(""Q3"").Value = GreatestDecrease"
+"        ws.Range(""Q3"").Style = ""Percent"""
+"        ws.Range(""Q3"").NumberFormat = ""0.00%"""
+"        ws.Range(""P3"").Value = ws.Cells(Row, 9).Value"
+    End If
+    
+    Next Row
+
+    For Row = 2 To lastrow
+    
+"    If ws.Cells(Row, 12).Value > GreatestVolume Then"
+"        GreatestVolume = ws.Cells(Row, 12).Value"
+"        ws.Range(""Q4"").Value = GreatestVolume"
+"        ws.Range(""P4"").Value = ws.Cells(Row, 9).Value"
+    End If
+  
+    Next Row
+    
+' --------------------------------------------
+'Format columns so text fits cell
+"    ws.Columns(""A:Q"").AutoFit"
+
+' --------------------------------------------
+'End this worksheet and go to next
+    Next ws
+
+End Sub
